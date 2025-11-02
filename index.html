@@ -2,17 +2,129 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title></title>
+  <style>
+    html,body { margin:0; height:100%; background:#fff; font-family: system-ui, sans-serif; }
+    /* guardian image */
+    #guardian {
+      position:fixed;
+      right:20px;
+      bottom:20px;
+      width:320px; /* adjust smaller/larger if needed */
+      pointer-events:none;
+      user-select:none;
+    }
+
+    /* input: tiny square, no rounded edges, visible text */
+    #inputWrap {
+      position:fixed;
+      right: 300px; /* tune these values to place exactly on the purple star */
+      bottom: 210px; /* tune these values to place exactly on the purple star */
+      z-index: 40;
+    }
+    #code {
+      width:120px;
+      height:28px;
+      padding:4px 6px;
+      border-radius:0;           /* no smooth edges */
+      border:1px solid #ccc;
+      box-shadow:none;
+      font-size:14px;
+      font-weight:500;
+      background: rgba(255,255,255,0.95);
+      color:#111;
+    }
+
+    /* question mark */
+    #helpBtn {
+      position: fixed;
+      left: 12px;
+      top: 12px;
+      width:18px;
+      height:18px;
+      background:#1e90ff; /* blue */
+      color:#fff;
+      font-size:14px;
+      line-height:18px;
+      text-align:center;
+      border-radius:50%;
+      cursor:pointer;
+      z-index:60;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+      user-select:none;
+    }
+
+    /* modal (hidden by default) */
+    #helpModal {
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 360px;
+      max-width: 90%;
+      background:#fff;
+      border:1px solid #ddd;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+      padding:18px;
+      display:none;
+      z-index:70;
+      text-align:center;
+    }
+    #helpModal p { margin:0 0 12px 0; color:#111; font-size:15px; }
+    #helpClose {
+      position:absolute;
+      right:8px;
+      top:8px;
+      width:22px;
+      height:22px;
+      text-align:center;
+      line-height:22px;
+      cursor:pointer;
+      font-weight:700;
+    }
+
+    /* iframe overlay (hidden until unlocked) */
+    #overlay {
+      position: fixed;
+      left: 0; top: 0; right: 0; bottom: 0;
+      background: #fff;
+      display: none;
+      z-index:80;
+    }
+    #embedFrame {
+      position: absolute;
+      left: 6px;
+      top: 6px;
+      right: 6px;
+      bottom: 6px;
+      width: calc(100% - 12px);
+      height: calc(100% - 12px);
+      border: none;
+      box-shadow: 0 6px 40px rgba(0,0,0,0.25);
+      border-radius: 6px;
+      background:#fff;
+    }
+  </style>
 </head>
-<body style="margin:0;height:100%;background:#fff;">
-  <img id="guardian" src="guardian.png" alt="" 
-       style="position:fixed;right:20px;bottom:20px;width:260px;">
-  <div id="inputWrap" 
-       style="position:fixed;right:320px;bottom:220px;">
-    <input id="code" type="password" autocomplete="one-time-code"
-           style="width:220px;padding:8px 10px;border:1px solid #ddd;
-                  border-radius:8px;font-size:16px;" />
+<body>
+  <div id="helpBtn" title="Help">?</div>
+
+  <div id="inputWrap">
+    <input id="code" type="text" placeholder="" autocomplete="off" />
   </div>
+
+  <img id="guardian" src="guardian.png" alt="guardian">
+
+  <div id="helpModal" role="dialog" aria-hidden="true">
+    <div id="helpClose">✕</div>
+    <p>Send an email to <strong>Zoba6496@gmail.com</strong> to get a working code for the website.</p>
+  </div>
+
+  <div id="overlay" aria-hidden="true">
+    <iframe id="embedFrame" src="" sandbox="allow-same-origin allow-scripts allow-forms"></iframe>
+  </div>
+
   <script src="script.js"></script>
 </body>
 </html>
